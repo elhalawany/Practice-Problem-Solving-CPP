@@ -1,0 +1,88 @@
+/*
+https://leetcode.com/problems/two-sum/
+*/
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+// nested loop solution - Time: O(n2), Space: O(1)
+vector<int> nested_solution_twoSum(vector<int>& nums, int target) {
+    vector<int> ans;
+    for(int i=0; i < nums.size(); i++){
+        for (int j = i+1; j < nums.size(); j++) {
+            if(nums[i] + nums[j] == target){
+                ans.push_back(i);
+                ans.push_back(j);
+                return ans;
+            }
+        }
+    }
+    return ans;
+}
+
+// Hash map solution - Time: O(n), Space: O(n)
+vector<int> hash_map_twoSum(vector<int>& nums, int target){
+    vector<int> ans;
+    unordered_map<int, int> map_nums;
+
+    for(int i = 0; i < nums.size(); i++){
+
+        if(map_nums.find(target - nums[i]) == map_nums.end()){
+            map_nums[nums[i]] = i;
+        }
+        else{
+
+            ans.push_back(map_nums[target - nums[i]]);
+            ans.push_back(i);
+            return ans;
+        }
+
+    }
+    return ans;
+
+}
+
+// two pointers Solution - Time: O(nlog(n)), Space: O(1)   *This one returns the numbers not the indexes
+vector<int> pointers_solution_twoSum(vector<int>& nums, int target){
+    vector<int> ans;
+
+    // sort vector
+    sort(nums.begin(), nums.end());
+
+    // initialize pointers
+    int leftpointer = 0;
+    int rightpointer = nums.size() - 1;
+
+    for(int i =0; i < nums.size(); i++){
+        if (nums[leftpointer] + nums[rightpointer] == target){
+            ans.push_back(leftpointer);
+            ans.push_back(rightpointer);
+            return ans;
+        }
+
+        if (leftpointer == rightpointer){
+            return ans;
+        }
+
+        if (nums[leftpointer] + nums[rightpointer] < target){
+            leftpointer++;
+        }
+        if (nums[leftpointer] + nums[rightpointer] > target){
+            rightpointer--;
+        }
+
+    }
+
+}
+
+
+
+int main() {
+
+
+    return 0;
+}
